@@ -13,7 +13,7 @@ export default async function Home() {
     redirect("/login");
   }
 
-  if(user.incomplete) {
+  if (user.incomplete) {
     redirect("/edit-profile");
   }
 
@@ -35,6 +35,9 @@ export default async function Home() {
         </li>
         <li>
           <a href="https://judge.w-pcp.dev">AtsuoCoder</a>
+        </li>
+        <li>
+          <a href="/logout">ログアウト</a>
         </li>
       </ul>
 
