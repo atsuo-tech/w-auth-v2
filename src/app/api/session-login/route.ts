@@ -21,11 +21,13 @@ export async function POST(req: NextRequest) {
 
 		const meData = await getMe(idToken);
 
+		const firstLogin = meData ? false : true;
+
 		const response = NextResponse.json({
 			status: "success",
 			user: meData,
-			firstLogin: meData ? false : true,
-			redirectTo: meData ? "/" : "/edit-profile",
+			firstLogin,
+			redirectTo: firstLogin ? "/edit-profile" : "/",
 		});
 		response.cookies.set("session", sessionCookie, { httpOnly: true, maxAge: SESSION_MAX_AGE, domain: process.env.DOMAIN_SCOPE || undefined, secure: true, path: "/" });
 

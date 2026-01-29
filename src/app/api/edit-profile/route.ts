@@ -22,11 +22,31 @@ export async function POST(req: NextRequest) {
 		return NextResponse.json({ error: "Invalid session" }, { status: 401 });
 	}
 
-	await admin.firestore().collection("users").doc(user.uid).set({
+	const firestore = admin.firestore();
+
+	if (user.incomplete) {
+
+		const usernameDoc = await firestore.collection("usernames").doc(username).get();
+
+		if (usernameDoc.exists) {
+			return NextResponse.json({ error: "Username already taken" }, { status: 400 });
+		}
+
+	}
+
+	await firestore.collection("users").doc(user.uid).set({
 		realname,
 		grade,
 		username: user.incomplete ? username : user.username,
 	}, { merge: true });
+
+	if (user.incomplete) {
+
+		await firestore.collection("usernames").doc(username).set({
+			user: firestore.collection("users").doc(user.uid),
+		});
+
+	}
 
 	return NextResponse.redirect(new URL("/edit-profile?success=true", req.url));
 
