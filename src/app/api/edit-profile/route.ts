@@ -2,6 +2,7 @@ import { initFirebaseAdmin } from "@/lib/firebase/init-admin";
 import { getMe } from "@/lib/user/me";
 import { NextRequest, NextResponse } from "next/server";
 import admin from "firebase-admin";
+import { redirect } from "next/navigation";
 
 export async function POST(req: NextRequest) {
 
@@ -48,6 +49,6 @@ export async function POST(req: NextRequest) {
 
 	}
 
-	return NextResponse.redirect(new URL("/edit-profile?success=true", req.url));
+	redirect("/edit-profile?success=true")
 
 }
