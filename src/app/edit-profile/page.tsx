@@ -1,5 +1,3 @@
-"use server";
-
 import { db } from "@/lib/db";
 import { getCurrentUser } from "@/lib/user";
 import Link from "next/link";
@@ -37,6 +35,7 @@ export default async function EditProfile(
 			<form
 				action={
 					async (formData: FormData) => {
+						"use server";
 
 						const realname = formData.get("realname")?.toString().trim() || "";
 						const grade = formData.get("grade")?.toString().trim() || "";

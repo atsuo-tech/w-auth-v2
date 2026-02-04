@@ -1,5 +1,3 @@
-"use server";
-
 import { db } from "@/lib/db";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
@@ -12,6 +10,7 @@ export default function LoginUI() {
 			<h1>ログイン</h1>
 			<form
 				action={async (formData: FormData) => {
+					"use server";
 					const username = formData.get("username");
 					const password = formData.get("password");
 					if (typeof username !== "string" || typeof password !== "string") {
