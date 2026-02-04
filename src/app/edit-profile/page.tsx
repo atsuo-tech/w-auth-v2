@@ -1,5 +1,8 @@
-import { getMe, Me } from "@/lib/user/me";
-import { cookies } from "next/headers";
+"use server";
+
+import { db } from "@/lib/db";
+import { getCurrentUser } from "@/lib/user";
+import Link from "next/link";
 import { redirect } from "next/navigation";
 
 export default async function EditProfile(
@@ -14,8 +17,7 @@ export default async function EditProfile(
 
 	const { success } = await searchParams;
 
-	const cookieStore = await cookies();
-	const user = await getMe(cookieStore.get("session")?.value || "") as Me;
+	const user = await getCurrentUser();
 
 	if (!user) {
 		redirect("/login");
@@ -33,8 +35,37 @@ export default async function EditProfile(
 			)}
 
 			<form
-				method="POST"
-				action="/api/edit-profile"
+				action={
+					async (formData: FormData) => {
+
+						const realname = formData.get("realname")?.toString().trim() || "";
+						const grade = formData.get("grade")?.toString().trim() || "";
+						const studentId = formData.get("studentId")?.toString().trim() || "";
+
+						if (typeof grade !== "string" || isNaN(Number(grade)) || Number(grade) < 1) {
+							redirect("/edit-profile?success=false");
+						}
+
+						if (typeof studentId !== "string" || isNaN(Number(studentId)) || Number(studentId) < 1) {
+							redirect("/edit-profile?success=false");
+						}
+
+						const user = await getCurrentUser();
+						await db.authUser.update({
+							where: {
+								uniqueId: user!.uniqueId,
+							},
+							data: {
+								realname: realname,
+								grade: Number(grade),
+								studentId: studentId,
+							},
+						});
+
+						redirect("/edit-profile?success=true");
+
+					}
+				}
 			>
 				<label>
 					本名（空白なし）
@@ -49,9 +80,15 @@ export default async function EditProfile(
 				</label>
 				<br />
 				<label>
+					学籍番号
+					<br />
+					<input type="text" name="studentId" defaultValue={user?.studentId || ""} />
+				</label>
+				<br />
+				<label>
 					ユーザー名（変更不可）
 					<br />
-					<input type="text" name="username" defaultValue={user?.username || ""} disabled={!user.incomplete} />
+					<input type="text" name="username" defaultValue={user?.username || ""} disabled />
 				</label>
 				<br />
 				<br />
@@ -60,7 +97,7 @@ export default async function EditProfile(
 
 			<br />
 
-			<a href="/">ホームに戻る</a>
+			<Link href="/">ホームに戻る</Link>
 
 		</div>
 	)

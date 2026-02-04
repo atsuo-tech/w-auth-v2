@@ -1,19 +1,16 @@
-import { getMe } from "@/lib/user/me";
+import { getCurrentUser } from "@/lib/user";
 import styles from "./page.module.css";
-import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
 export default async function Home() {
 
-  const cookieStore = await cookies();
-
-  const user = await getMe(cookieStore.get("session")?.value || "");
+  const user = await getCurrentUser();
 
   if (!user) {
     redirect("/login");
   }
 
-  if (user.incomplete) {
+  if (user.grade == -1) {
     redirect("/edit-profile");
   }
 
