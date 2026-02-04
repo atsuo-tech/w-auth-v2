@@ -54,9 +54,9 @@ export default function LoginUI() {
 					redirect("/");
 				}}
 			>
-				<input type="text" placeholder="ユーザー名" />
+				<input type="text" placeholder="ユーザー名" name="username" />
 				<br />
-				<input type="password" placeholder="パスワード" />
+				<input type="password" placeholder="パスワード" name="password" />
 				<br />
 				<button
 					type="submit"
