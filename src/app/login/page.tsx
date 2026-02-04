@@ -16,7 +16,7 @@ export default function LoginUI() {
 					if (typeof username !== "string" || typeof password !== "string") {
 						throw new Error("Invalid form data");
 					}
-					await db.userAuth.findFirst({
+					const user = await db.userAuth.findFirst({
 						where: {
 							value: crypto.createHash('sha512').update(password).digest('hex'),
 							authType: "PASSWORD",
@@ -29,12 +29,15 @@ export default function LoginUI() {
 							},
 						},
 					});
+					if (!user) {
+						redirect("/login?error=invalid_credentials");
+					}
 					const userToken = crypto.randomBytes(64).toString('hex');
 					await db.loginSession.create({
 						data: {
 							user: {
 								connect: {
-									uniqueId: username,
+									uniqueId: user?.user.uniqueId,
 								},
 							},
 							sessionToken: userToken,
