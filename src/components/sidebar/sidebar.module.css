@@ -1,0 +1,105 @@
+div.container {
+	display: grid;
+	transition: all 0.3s ease;
+	grid-template-columns: 0 1fr;
+
+	div.sidebar {
+		position: fixed;
+		top: 0;
+		height: 100%;
+		width: 250px;
+		transform: translateX(-100%);
+		overflow: hidden;
+		transition: all 0.3s ease;
+		background: white;
+
+		>h1 {
+			font-size: 1.5rem;
+			padding: 1rem;
+		}
+
+		ul {
+			list-style: none;
+			padding: 0;
+			margin: 0;
+
+			>li {
+				cursor: pointer;
+
+				>a {
+					padding: 1rem;
+					text-decoration: none;
+					color: inherit;
+					display: block;
+					width: 100%;
+					height: 100%;
+
+					&:hover {
+						background-color: #f0f0f0;
+					}
+				}
+			}
+
+			>li.logoutLink {
+				position: absolute;
+				bottom: 1rem;
+				width: 100%;
+				color: red;
+			}
+		}
+
+	}
+
+	div.toggleButton {
+		position: fixed;
+		left: calc(250px - 1rem);
+		bottom: 1rem;
+		width: 2rem;
+		text-align: right;
+		background-color: #0070f3;
+		color: white;
+		border: none;
+		padding: 0.5rem 1rem;
+		border-radius: 4px;
+		cursor: pointer;
+		transform: translateX(-250px);
+		overflow: hidden;
+		transition: all 0.3s ease;
+
+		&:hover {
+			background-color: #005bb5;
+		}
+	}
+
+	div.content {
+		margin: 1rem 2rem;
+	}
+}
+
+div.container.open {
+	grid-template-columns: 250px 1fr;
+
+	div.sidebar {
+		transform: translateX(0);
+		border-right: 1px solid #ccc;
+	}
+
+	div.toggleButton {
+		transform: translateX(0);
+	}
+}
+
+nav.nav {
+	top: 0;
+	left: 0;
+	display: flex;
+	position: sticky;
+	align-items: center;
+	justify-content: space-between;
+	padding: 0.5rem 1rem;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+	>h1 {
+		font-size: 1.5rem;
+	}
+}

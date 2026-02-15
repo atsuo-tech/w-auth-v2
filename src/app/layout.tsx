@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Roboto, Noto_Sans_JP } from "next/font/google";
 import "./globals.css";
 import styles from "./layout.module.css";
+import { Sidebar } from "@/components/sidebar";
 
 const notoSansJP = Noto_Sans_JP({
   subsets: ["latin"],
@@ -27,9 +28,9 @@ export default function RootLayout({
   return (
     <html lang="ja">
       <body className={`${notoSansJP.variable} ${roboto.variable}`}>
-        <div className={styles.container}>
+        <Sidebar>
           {children}
-        </div>
+        </Sidebar>
       </body>
     </html>
   );

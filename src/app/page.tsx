@@ -1,6 +1,7 @@
 import { getCurrentUser } from "@/lib/user";
 import styles from "./page.module.css";
 import { redirect } from "next/navigation";
+import Link from "next/link";
 
 export default async function Home() {
 
@@ -17,7 +18,7 @@ export default async function Home() {
   return (
     <div className={styles.page}>
 
-      <h1>W-Auth</h1>
+      <h1>Welcome to W-Auth</h1>
 
       <p>
         こんにちは。<br />
@@ -28,13 +29,13 @@ export default async function Home() {
 
       <ul>
         <li>
-          <a href="/edit-profile">情報の編集</a>
+          <Link href="/edit-profile">情報の編集</Link>
         </li>
         <li>
-          <a href="https://judge.w-pcp.dev">AtsuoCoder</a>
+          <Link href="https://judge.w-pcp.dev">AtsuoCoder</Link>
         </li>
         <li>
-          <a href="/logout">ログアウト</a>
+          <Link href="/logout">ログアウト</Link>
         </li>
       </ul>
 
