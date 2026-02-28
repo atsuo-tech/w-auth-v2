@@ -18,6 +18,9 @@ export default function LoginUI() {
 					}
 					const user = await db.userAuth.findFirst({
 						where: {
+							user: {
+								username,
+							},
 							value: crypto.createHash('sha512').update(password).digest('hex'),
 							authType: "PASSWORD",
 						},
