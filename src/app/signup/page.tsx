@@ -83,7 +83,7 @@ export default function SignupUI() {
 				<br />
 				<input type="text" placeholder="学籍番号" autoComplete="off" name="studentId" />
 				<br />
-				<input type="text" placeholder="登録トークン用" autoComplete="off" name="token" />
+				<input type="text" placeholder="登録用トークン" autoComplete="off" name="token" />
 				<br />
 				<button
 					type="submit"
